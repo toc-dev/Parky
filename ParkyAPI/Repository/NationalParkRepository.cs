@@ -14,13 +14,13 @@ namespace ParkyAPI.Repository
         {
             _db = db;
         }
-        public bool CreateNationaPark(NationalPark nationalPark)
+        public bool CreateNationalPark(NationalPark nationalPark)
         {
             _db.NationalParks.Add(nationalPark);
             return Save();
         }
 
-        public bool DeleteNationaPark(NationalPark nationalPark)
+        public bool DeleteNationalPark(NationalPark nationalPark)
         {
             _db.NationalParks.Remove(nationalPark);
             return Save();
@@ -36,12 +36,12 @@ namespace ParkyAPI.Repository
             return _db.NationalParks.OrderBy(a => a.Name).ToList();
         }
 
-        public bool NationaParkExists(string name)
+        public bool NationalParkExists(string name)
         {
             return _db.NationalParks.Any(a => a.Name.ToLower().Trim() == name.ToLower().Trim());
         }
 
-        public bool NationaParkExists(int id)
+        public bool NationalParkExists(int id)
         {
             return _db.NationalParks.Any(a => a.Id == id);
         }
@@ -51,7 +51,7 @@ namespace ParkyAPI.Repository
             return _db.SaveChanges() >= 1;
         }
 
-        public bool UpdateNationaPark(NationalPark nationalPark)
+        public bool UpdateNationalPark(NationalPark nationalPark)
         {
             _db.NationalParks.Update(nationalPark);
             return Save();
