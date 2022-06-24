@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using static ParkyAPI.Models.Trail;
 
-namespace ParkyAPI.Models.Dtos
+namespace ParkyWeb.Models
 {
-    public class TrailDto
+    public class Trail
     {
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
         public double Distance { get; set; }
+        public enum DifficultyType { Easy, Moderate, Difficult, Expert }
         public DifficultyType Difficulty { get; set; }
         public int NationalParkId { get; set; }
-        public NationalParkDto NationalPark { get; set; }
+        public NationalPark NationalPark { get; set; }
     }
 }

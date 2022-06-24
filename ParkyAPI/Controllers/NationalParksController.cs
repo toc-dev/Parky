@@ -11,8 +11,9 @@ using System.Threading.Tasks;
 
 namespace ParkyAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/nationalParks")]
     [ApiController]
+    //[ApiExplorerSettings(GroupName = "ParkyOpenAPISpecNP")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class NationalParksController : Controller
     {
@@ -46,7 +47,6 @@ namespace ParkyAPI.Controllers
         /// <param name="nationalParkId">Id of the national park</param>
         /// <returns></returns>
         [HttpGet("{nationalParkId:int}", Name = "GetNationalPark")]
-        [HttpPost]
         [ProducesResponseType(200, Type = typeof(NationalParkDto))]
         [ProducesResponseType(404)]
         [ProducesDefaultResponseType]
@@ -60,10 +60,11 @@ namespace ParkyAPI.Controllers
             var objDto = _mapper.Map<NationalParkDto>(objResult);
             return Ok(objDto);
         }
+        [HttpPost]
         [ProducesResponseType(201, Type = typeof(NationalParkDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult CreateNationalPark([FromBody] NationalParkDto nationalParkDto)
+        public IActionResult CreateNationalPark([FromBody] CreateNationalParkDto nationalParkDto)
         {
             if (nationalParkDto == null)
             {
@@ -85,7 +86,8 @@ namespace ParkyAPI.Controllers
                 ModelState.AddModelError("", $"Something went wrong while saving {nationalParkObj.Name}");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtRoute("GetNationalPark", new { nationalParkId = nationalParkObj.Id}, nationalParkDto); //Passes in the GetNationalPark method with the input and return parameters
+            return CreatedAtRoute("GetNationalPark", new { Version = HttpContext.GetRequestedApiVersion().ToString(), 
+                nationalParkId = nationalParkObj.Id}, nationalParkDto); //Passes in the GetNationalPark method with the input and return parameters
         }
 
         [HttpPatch("{nationalParkId}", Name = "UpdateNationalPark")]
